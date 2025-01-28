@@ -1,0 +1,5 @@
+CREATE DATABASE IF NOT EXISTS celia_db;
+
+CREATE USER IF NOT EXISTS 'testuser'@'%' IDENTIFIED BY 'testpassword';
+GRANT ALL PRIVILEGES ON celia_db.* TO 'testuser'@'%';
+FLUSH PRIVILEGES;
