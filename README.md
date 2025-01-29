@@ -32,17 +32,29 @@
 
 [x] Add typeorm
 
-[ ] database design
+[x] database design
 
-[ ] Make database config abstract
+[x] Make database config abstract
 
-[ ] Schema validation for request data
+[x] Schema validation for request data
+
+[x] use global schema validation
+
+[ ] Password encrypt
+
+[ ] Add passport lib
 
 [ ] Authorization and authentication guards
 
 [ ] Add rest of modules
 
 [ ] Fix env file for prod on docker-compose
+
+[ ] Add swagger
+
+[ ] Exception filter
+
+[ ] Add interceptor to return an standard response
 
 ## Description
 
@@ -92,6 +104,12 @@ $ mau deploy
 ```
 
 With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+
+## Database Design
+
+![Database Diagram](docs/database/celia-db-diagram.png)
+
+### Directory Structure
 
 ## Setting Up MySQL Permissions
 
