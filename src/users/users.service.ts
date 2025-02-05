@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { Hash } from 'src/utils/password.util';
 
 @Injectable()
 export class UsersService {
@@ -12,7 +13,7 @@ export class UsersService {
   ) {}
 
   async findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+    return this.usersRepository.find({ where: { isActive: true } });
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -20,9 +21,49 @@ export class UsersService {
     user.firstName = createUserDto.firstName;
     user.lastName = createUserDto.lastName;
     user.email = createUserDto.email;
-    user.password = createUserDto.password;
+    user.password = await Hash.password(createUserDto.password);
     user.createdAt = new Date().getTime();
 
     return this.usersRepository.save(user);
+  }
+
+  async findByEmail(email: string): Promise<User | undefined> {
+    const user = await this.usersRepository.findOne({
+      where: { email, isActive: true },
+    });
+
+    if (user) {
+      return user;
+    }
+
+    return undefined;
+  }
+
+  async findById(id: number): Promise<User | undefined> {
+    const user = await this.usersRepository.findOne({
+      where: { id, isActive: true },
+    });
+
+    if (user) {
+      return user;
+    }
+
+    return undefined;
+  }
+
+  async update(
+    id: number,
+    updateUserDto: Partial<User>,
+  ): Promise<User | undefined> {
+    const user = await this.usersRepository.findOne({
+      where: { id, isActive: true },
+    });
+
+    if (user) {
+      Object.assign(user, updateUserDto);
+      return this.usersRepository.save(user);
+    }
+
+    return undefined;
   }
 }
